@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>С ДНЕМ РОЖДЕНИЯ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* основная фотография (как в оригинале) */
+        img {
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* кнопка по центру экрана (fixed) */
+        .music-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ff9900;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 0 20px rgba(255,150,0,0.8), 0 4px 12px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        .music-btn:active {
+            transform: translate(-50%, -50%) scale(0.96);
+        }
+
+        @media (max-width: 550px) {
+            .music-btn {
+                padding: 10px 22px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ДВЕ ГИФКИ ВНИЗУ, СДВИНУТЫ БЛИЖЕ К ЦЕНТРУ И УВЕЛИЧЕНЫ */
+        .bottom-gif {
+            position: fixed;
+            bottom: 50px;          /* поднял повыше, ближе к картинке */
+            width: 110px;          /* увеличил размер */
+            height: auto;
+            z-index: 9999;
+            pointer-events: none;  /* не мешают кнопке */
+        }
+
+        .left-gif {
+            left: 40px;            /* сдвинул вправо (было 20px) — ближе к центру */
+        }
+
+        .right-gif {
+            right: 40px;           /* сдвинул влево (было 20px) — ближе к центру */
+        }
+
+        /* на планшетах и телефонах чуть уменьшаем, но сохраняем пропорции */
+        @media (max-width: 768px) {
+            .bottom-gif {
+                width: 90px;
+                bottom: 40px;
+            }
+            .left-gif { left: 25px; }
+            .right-gif { right: 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .bottom-gif {
+                width: 75px;
+                bottom: 30px;
+            }
+            .left-gif { left: 15px; }
+            .right-gif { right: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- основная фотография -->
+    <img src="67.jpg" alt="С днём рождения!">
+
+    <audio id="myAudio" loop preload="auto">
+        <source src="67.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- кнопка запуска музыки (по центру, исчезнет после нажатия) -->
+    <button id="musicTrigger" class="music-btn">🎵 Включить музыку</button>
+
+    <!-- две гифки: слева и справа, обе используют 67.gif -->
+    <img src="67.gif" alt="gif" class="bottom-gif left-gif">
+    <img src="67.gif" alt="gif" class="bottom-gif right-gif">
+
+    <script>
+        (function() {
+            const btn = document.getElementById('musicTrigger');
+            const audio = document.getElementById('myAudio');
+            let clicked = false;
+
+            if (!btn || !audio) return;
+
+            function startMusicAndHide() {
+                if (clicked) return;
+                clicked = true;
+                audio.play().catch(e => console.log("audio error:", e));
+                btn.classList.add('hidden');
+            }
+
+            btn.addEventListener('click', startMusicAndHide);
+            btn.addEventListener('touchstart', startMusicAndHide, { passive: false });
+        })();
+    </script>
+
+</body>
+</html>
